@@ -4,6 +4,14 @@ on:
     branches:
       - main
   workflow_dispatch:
+    inputs:
+      foo: 
+        description: "bar|baz"
+        type: choice
+        options:
+          - "bar"
+          - "baz"
+        default: "baz"
 jobs:
   MyFirstJob:
     runs-on: ubuntu-latest
@@ -16,3 +24,8 @@ jobs:
         run: |
           echo "the repository ${{ github.repository }} contains the following files:"
           tree
+  MySecondJob:
+    runs-on: ubuntu-latest
+    steps:
+      - name: step 1
+        run: "echo foo: ${{ inputs.foo }}"
