@@ -14,24 +14,38 @@ on:
         default: "baz"
         required: true
 jobs:
-  MyFirstJob:
-    runs-on: ubuntu-latest
+  # MyFirstJob:
+  #   runs-on: ubuntu-latest
 
+  #   steps:
+  #     - run: echo "Hello World"
+  #       shell: pwsh
+  #     - run: print("Hello World Python")
+  #       shell: python
+  #     - name: Checkout
+  #       uses: actions/checkout@v6.0.2
+  #     - name: List files in repository
+  #       run: |
+  #         echo "the repository ${{ github.repository }} contains the following files:"
+  #         tree
+  # MySecondJob:
+  #   runs-on: ubuntu-22.04ubuntu-latest
+  #   steps:
+  #     - name: step 1
+  #       run: "echo foo: ${{ inputs.foo }}"
+  #   needs:
+  #     - MyFirstJob
+  job_z:
+    strategy:
+      fail-fast: false
+      max-parallel: 3
+      matrix:
+        os_version: [macos-latest, ubuntu-latest]
+        node_version: [12, 14, 16]
+  
+    name: My first job
+    runs-on: ${{ matrix.os_version }}
     steps:
-      - run: echo "Hello World"
-        shell: pwsh
-      - run: print("Hello World Python")
-        shell: python
-      - name: Checkout
-        uses: actions/checkout@v6.0.2
-      - name: List files in repository
-        run: |
-          echo "the repository ${{ github.repository }} contains the following files:"
-          tree
-  MySecondJob:
-    runs-on: ubuntu-latest
-    steps:
-      - name: step 1
-        run: "echo foo: ${{ inputs.foo }}"
-    needs:
-      - MyFirstJob
+      - uses: actions/setup-node@v3.6.0
+        with:
+          node-version: ${{ matrix.node_version }}
