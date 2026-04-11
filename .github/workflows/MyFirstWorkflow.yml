@@ -12,6 +12,7 @@ on:
           - "bar"
           - "baz"
         default: "baz"
+        required: true
 jobs:
   MyFirstJob:
     runs-on: ubuntu-latest
@@ -29,3 +30,5 @@ jobs:
     steps:
       - name: step 1
         run: "echo foo: ${{ inputs.foo }}"
+    needs:
+      - MyFirstJob
