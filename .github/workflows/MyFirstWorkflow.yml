@@ -19,6 +19,9 @@ jobs:
 
     steps:
       - run: echo "Hello World"
+        shell: pwsh
+      - run: print("Hello World Python")
+        shell: python
       - name: Checkout
         uses: actions/checkout@v6.0.2
       - name: List files in repository
